@@ -42,7 +42,7 @@
  *  const unsinged int         g_client_conf_size;   // g_<<LABEL>>_size
  */
 #ifndef CLIENT_CONF_PATH
-#define CLIENT_CONF_PATH "/curve/curvefs/conf/client.conf"
+#define CLIENT_CONF_PATH "/home/tpa/curve/curvefs/conf/client.conf"
 #endif
 
 INCBIN(client_conf, CLIENT_CONF_PATH);

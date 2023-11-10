@@ -41,6 +41,9 @@ BASE_FLAGS = [
 
 CXX_FLAGS = [
     "-std=c++11",
+    "-faligned-new",
+    "-Wno-error=maybe-uninitialized",
+    "-Wno-error=uninitialized",
 ]
 
 CURVE_GCC_FLAGS = [
@@ -112,7 +115,6 @@ CURVE_LLVM_FLAGS = [
     "-Wstring-conversion",
     "-Wtautological-overlap-compare",
     "-Wundef",
-    "-Wuninitialized",
     "-Wunreachable-code",
     "-Wunused-comparison",
     "-Wunused-local-typedefs",

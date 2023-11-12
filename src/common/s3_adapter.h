@@ -92,7 +92,6 @@ struct S3AdapterOption {
     uint64_t bpsReadMB;
     uint64_t bpsWriteMB;
     bool useVirtualAddressing;
-    Aws::S3::Model::StorageClass storageClass;
 };
 
 struct S3InfoOption {
@@ -121,6 +120,11 @@ enum class ContextType {
     S3,
     Disk,
 };
+
+struct PutObjectOptions {
+    Aws::S3::Model::StorageClass storageClass;
+};
+
 struct GetObjectAsyncContext : public Aws::Client::AsyncCallerContext {
     std::string key;
     char* buf;
@@ -160,6 +164,7 @@ struct PutObjectAsyncContext : public Aws::Client::AsyncCallerContext {
     std::string key;
     const char* buffer;
     size_t bufferSize;
+    PutObjectOptions options;
     PutObjectAsyncCallBack cb;
     butil::Timer timer;
     int retCode;  // >= 0 success, < 0 fail
@@ -264,6 +269,12 @@ class S3Adapter {
      * @return:0 上传成功/ -1 上传失败
      */
     virtual int PutObject(const Aws::String &key, const std::string &data);
+    
+    // TODO 补充注释
+    virtual int PutObject(const Aws::String &key, const char *buffer,
+                          const size_t bufferSize, const PutObjectOptions &options);
+    
+    
     virtual void PutObjectAsync(std::shared_ptr<PutObjectAsyncContext> context);
     /**
      * Get object from s3,
@@ -382,7 +393,6 @@ class S3Adapter {
     Aws::String s3Sk_;
     // 对象的桶名
     Aws::String bucketName_;
-    Aws::S3::Model::StorageClass storageClass_;
     // aws sdk的配置
     Aws::Client::ClientConfiguration *clientCfg_;
     Aws::S3::S3Client *s3Client_;

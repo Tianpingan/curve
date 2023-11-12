@@ -2431,6 +2431,7 @@ CURVEFS_ERROR DataCache::PrepareFlushTasks(
     // generate flush task
     uint64_t blockSize = s3ClientAdaptor_->GetBlockSize();
     uint32_t objectPrefix = s3ClientAdaptor_->GetObjectPrefix();
+    curve::common::PutObjectOptions options = {storageClass: s3ClientAdaptor_->GetStorageClass()};
     uint64_t blockPos = chunkPos_ % blockSize;
     uint64_t blockIndex = chunkPos_ / blockSize;
     uint64_t remainLen = len_;
@@ -2443,6 +2444,7 @@ CURVEFS_ERROR DataCache::PrepareFlushTasks(
             *chunkId, blockIndex, 0, fsId, inodeId, objectPrefix);
         auto context = std::make_shared<PutObjectAsyncContext>(
             objectName, data + (*writeOffset), curentLen);
+        context->options = options;
         // context->type and context->cb will set in FlushTaskExecute
         s3Tasks->emplace_back(context);
 

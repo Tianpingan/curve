@@ -32,13 +32,26 @@ void S3ClientImpl::Deinit() {
     s3Adapter_->Deinit();
 }
 
-int S3ClientImpl::Upload(const std::string &name, const char *buf,
+int S3ClientImpl::Upload(const std::string &name, const char *buf, 
                          uint64_t length) {
     int ret = 0;
     const Aws::String aws_key(name.c_str(), name.size());
 
     VLOG(9) << "upload start, aws_key:" << aws_key << ",length:" << length;
     ret = s3Adapter_->PutObject(aws_key, buf, length);
+    if (ret < 0) {
+        LOG(WARNING) << "upload error:" << ret;
+    }
+    VLOG(9) << "upload end, ret:" << ret;
+    return ret;
+}
+
+int S3ClientImpl::Upload(const std::string &name, const char *buf,
+                         uint64_t length, curve::common::PutObjectOptions options = curve::common::PutObjectOptions{}) {
+    int ret = 0;
+    const Aws::String aws_key(name.c_str(), name.size());
+    VLOG(9) << "upload start, aws_key:" << aws_key << ",length:" << length;
+    ret = s3Adapter_->PutObject(aws_key, buf, length, options);
     if (ret < 0) {
         LOG(WARNING) << "upload error:" << ret;
     }

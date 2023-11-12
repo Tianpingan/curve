@@ -472,11 +472,11 @@ void SetFuseClientS3Option(FuseClientOption *clientOption,
     clientOption->s3Opt.s3ClientAdaptorOpt.blockSize = fsS3Opt.blockSize;
     clientOption->s3Opt.s3ClientAdaptorOpt.chunkSize = fsS3Opt.chunkSize;
     clientOption->s3Opt.s3ClientAdaptorOpt.objectPrefix = fsS3Opt.objectPrefix;
+    clientOption->s3Opt.s3ClientAdaptorOpt.storageClass = fsS3Opt.storageClass;
     clientOption->s3Opt.s3AdaptrOpt.s3Address = fsS3Opt.s3Address;
     clientOption->s3Opt.s3AdaptrOpt.ak = fsS3Opt.ak;
     clientOption->s3Opt.s3AdaptrOpt.sk = fsS3Opt.sk;
     clientOption->s3Opt.s3AdaptrOpt.bucketName = fsS3Opt.bucketName;
-    clientOption->s3Opt.s3AdaptrOpt.storageClass = fsS3Opt.storageClass;
 }
 
 void S3Info2FsS3Option(const curvefs::common::S3Info& s3,

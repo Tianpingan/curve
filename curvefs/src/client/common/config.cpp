@@ -476,6 +476,7 @@ void SetFuseClientS3Option(FuseClientOption *clientOption,
     clientOption->s3Opt.s3AdaptrOpt.ak = fsS3Opt.ak;
     clientOption->s3Opt.s3AdaptrOpt.sk = fsS3Opt.sk;
     clientOption->s3Opt.s3AdaptrOpt.bucketName = fsS3Opt.bucketName;
+    clientOption->s3Opt.s3AdaptrOpt.storageClass = fsS3Opt.storageClass;
 }
 
 void S3Info2FsS3Option(const curvefs::common::S3Info& s3,
@@ -487,6 +488,7 @@ void S3Info2FsS3Option(const curvefs::common::S3Info& s3,
     fsS3Opt->blockSize = s3.blocksize();
     fsS3Opt->chunkSize = s3.chunksize();
     fsS3Opt->objectPrefix = s3.has_objectprefix() ? s3.objectprefix() : 0;
+    fsS3Opt->storageClass = s3.has_storageclass() ? Aws::S3::Model::StorageClass(s3.storageclass()) : Aws::S3::Model::StorageClass::STANDARD;
 }
 
 }  // namespace common

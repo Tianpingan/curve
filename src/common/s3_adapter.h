@@ -92,6 +92,7 @@ struct S3AdapterOption {
     uint64_t bpsReadMB;
     uint64_t bpsWriteMB;
     bool useVirtualAddressing;
+    Aws::S3::Model::StorageClass storageClass;
 };
 
 struct S3InfoOption {
@@ -103,6 +104,7 @@ struct S3InfoOption {
     uint64_t blockSize;
     uint64_t chunkSize;
     uint32_t objectPrefix;
+    Aws::S3::Model::StorageClass storageClass;
 };
 
 void InitS3AdaptorOptionExceptS3InfoOption(Configuration *conf,
@@ -380,6 +382,7 @@ class S3Adapter {
     Aws::String s3Sk_;
     // 对象的桶名
     Aws::String bucketName_;
+    Aws::S3::Model::StorageClass storageClass_;
     // aws sdk的配置
     Aws::Client::ClientConfiguration *clientCfg_;
     Aws::S3::S3Client *s3Client_;

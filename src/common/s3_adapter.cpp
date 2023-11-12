@@ -147,6 +147,7 @@ void S3Adapter::Init(const S3AdapterOption &option) {
     s3Ak_ = option.ak.c_str();
     s3Sk_ = option.sk.c_str();
     bucketName_ = option.bucketName.c_str();
+    storageClass_ = option.storageClass;
     clientCfg_ = Aws::New<Aws::Client::ClientConfiguration>(AWS_ALLOCATE_TAG);
     clientCfg_->scheme = Aws::Http::Scheme(option.scheme);
     clientCfg_->verifySSL = option.verifySsl;
@@ -284,10 +285,11 @@ int S3Adapter::PutObject(const Aws::String &key, const char *buffer,
     Aws::S3::Model::PutObjectRequest request;
     request.SetBucket(bucketName_);
     request.SetKey(key);
+    request.SetStorageClass(storageClass_);
 
     request.SetBody(Aws::MakeShared<PreallocatedIOStream>(AWS_ALLOCATE_TAG,
                                                           buffer, bufferSize));
-
+    
     if (throttle_) {
         throttle_->Add(false, bufferSize);
     }
@@ -337,7 +339,8 @@ void S3Adapter::PutObjectAsync(std::shared_ptr<PutObjectAsyncContext> context) {
     Aws::S3::Model::PutObjectRequest request;
     request.SetBucket(bucketName_);
     request.SetKey(Aws::String{context->key.c_str(), context->key.size()});
-
+    request.SetStorageClass(storageClass_);
+    
     request.SetBody(Aws::MakeShared<PreallocatedIOStream>(
         AWS_ALLOCATE_TAG, context->buffer, context->bufferSize));
 

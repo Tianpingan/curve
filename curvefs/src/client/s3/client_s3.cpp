@@ -47,7 +47,7 @@ int S3ClientImpl::Upload(const std::string &name, const char *buf,
 }
 
 int S3ClientImpl::Upload(const std::string &name, const char *buf,
-                         uint64_t length, curve::common::PutObjectOptions options = curve::common::PutObjectOptions{}) {
+                         uint64_t length, const curve::common::PutObjectOptions& options) {
     int ret = 0;
     const Aws::String aws_key(name.c_str(), name.size());
     VLOG(9) << "upload start, aws_key:" << aws_key << ",length:" << length;

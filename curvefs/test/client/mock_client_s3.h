@@ -44,6 +44,8 @@ class MockS3Client : public S3Client {
     MOCK_METHOD0(Deinit, void());
     MOCK_METHOD3(Upload, int(const std::string &name, const char *buf,
                              uint64_t length));
+    MOCK_METHOD4(Upload, int(const std::string &name, const char *buf,
+                             uint64_t length, const curve::common::PutObjectOptions &options));
     MOCK_METHOD1(UploadAsync,
                  void(std::shared_ptr<PutObjectAsyncContext> context));
     MOCK_METHOD4(Download, int(const std::string &name, char *buf,

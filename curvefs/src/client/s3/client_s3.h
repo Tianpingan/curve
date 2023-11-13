@@ -44,6 +44,8 @@ class S3Client {
     virtual void Deinit() = 0;
     virtual int Upload(const std::string& name, const char* buf,
                        uint64_t length) = 0;
+    virtual int Upload(const std::string& name, const char* buf,
+                       uint64_t length, const curve::common::PutObjectOptions& options) = 0;
     virtual void UploadAsync(
         std::shared_ptr<PutObjectAsyncContext> context) = 0;
     virtual int Download(const std::string& name, char* buf, uint64_t offset,
@@ -67,7 +69,7 @@ class S3ClientImpl : public S3Client {
     void Init(const curve::common::S3AdapterOption& option);
     void Deinit();
     int Upload(const std::string& name, const char* buf, uint64_t length);
-    int Upload(const std::string& name, const char* buf, uint64_t length, curve::common::PutObjectOptions options);
+    int Upload(const std::string& name, const char* buf, uint64_t length, const curve::common::PutObjectOptions& options);
     void UploadAsync(std::shared_ptr<PutObjectAsyncContext> context);
     int Download(const std::string& name, char* buf, uint64_t offset,
                  uint64_t length);
